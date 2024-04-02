@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoardUpload</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div class="page-container">
+            <!-- Header -->
+            <div class="Header-Container">
+                <!-- Header 내용물 -->
+                <div class="Header-Wrap">
+                    <!-- 로고 -->
+                    <div class="Logo-Container">
+                        <div class="text-3d">
+                            Company 
+                        </div>
+                    </div>
+                    <!-- 검색? -->
+                    <div class="Search-Container">
+                        <div class="Search-Wrap">
+                            <form class="d-flex Search-Box" role="search">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-dark" type="submit">Search</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- 로그인 버튼 -->
+                    <div class="Login-Container">
+                        <div class="Login-Wrap">
+                            <div class="Login-Box">
+                                <a href="" class="btn btn-outline-secondary btn-custom">Login</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 회원가입 버튼 -->
+                    <div class="Register-Container">
+                        <div class="Register-Wrap">
+                            <a href="" class="btn btn-outline-dark btn-custom">Register</a>
+                        </div>
+                    </div>
+                    <!-- 로그아웃 버튼 -> 회원가입위치 (일반 사용자) 300px -->
+                    <!-- 로그아웃(회원가입) + 관리자버튼(로그인) 300 px  -->
+                </div>
+            </div>
+            <!-- Navbar -->
+            <div class="Navbar-Container">
+                <div class="Navbar-Wrap">
+                    <div class="Navbar-Box">
+                        <a class="Navbar-Anchor" href="#">게시판</a>
+                    </div>
+                    <div class="Navbar-Box">
+                        <a class="Navbar-Anchor" href="#">Home</a>
+                    </div>
+                    <div class="Navbar-Box">
+                        <a class="Navbar-Anchor" href="#">과제제출</a>
+                    </div>
+                    <div class="Navbar-Box">
+                        <a class="Navbar-Anchor" href="#">온라인퀴즈</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Side Bar & Content -->
+            <div class="SideBar-Content-Wrap">
+                <!-- Side Bar -->
+                <div class="SideBar-Contaniner">
+                    <div class="SideBar-Info">
+                        <div class="Profile-wrap">
+                            <img class="Profile-image" src="{% static 'images/hun.jpg' %}"> 
+                        </div>
+                        <div class="Info-wrap">
+                            <div class="Info-name">이름: 진켄</div>
+                            <div class="Info-role">등급: 관리자</div>    
+                        </div>
+                        
+                    </div>
+                    <div class="SideBar-Action">
+                        <div class="Action-Wrap">
+                            <a class="Action-Board" href="">카페 글쓰기</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Content -->
+                <div class="Content-Container">
+                    <div class="BoardList-Wrap">
+                        <div class="BoardList-Box">
+                            <div class="title-Container">
+                                <div class="title-Box">
+                                    <div class="BoardCreate-title">글수정</div>
+                                </div>
+                            </div>
+                            <div class="BoardListTable-Container">
+                                <form class="BoardCreate">
+                                    <div class="mb-3">
+                                        <input type="title" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력하시오">
+                                      </div>
+                                      <div class="mb-3">
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="7" placeholder="내용을 입력하시오"></textarea>
+                                      </div>
+                                      <div class="BoardUpDelete-Button-Bundle">
+                                        
+                                        <div class="BoardUpDelete-Blank">
+                                            
+                                        </div>
+                                        <div class="BoardUpDelete-Form-bundle">
+                                            <div class="Board-Cancle-Anchor-Wrap">
+                                                <a href="" class="Board-Cancle">Cancle</a>
+                                            </div>
+                                            <div class="Board-Upload-Button-Wrap">
+                                                <button type="submit" class="Board-Upload">Update</button>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                </form>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            
+            </div>
+            <!-- Footer -->
+            <div class="Footer-Container">
+                <div class="Footer-Wrap">
+                    <div class="terms-wrap">
+                        <div class="terms-Anchor">
+                            <a href="" class="Anchor-ani">회사소개</a>
+                        </div>
+                        <div class="terms-Anchor Anchor-Middle">
+                            <a href="" class="Anchor-ani">이용약관</a>
+                        </div>
+                        <div class="terms-Anchor">
+                            <a href="" class="Anchor-ani">개인정보 처리 방침</a>
+                        </div>
+                    </div>
+                    <div class="Copyright-Wrap">
+                        Copyright ⓒ 2024 Company. All rights reserved.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

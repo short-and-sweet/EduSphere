@@ -97,6 +97,19 @@ html, body {
     width: 100px;
 }
 
+.Logout-Container {
+    width: 300px;
+    height: 90px;
+}
+.Logout-Wrap {
+    height: 40px;
+    margin-top: 50px;
+}
+.Logout-Box {
+    width: 100px;
+    margin: 0px 100px;
+}
+
 /* Navbar 모음 */
 .Navbar-Container {
     height: 60px;

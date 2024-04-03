@@ -20,9 +20,11 @@
                     <div class="Login-Page-Logo-Container">
                         <!-- 로고 -->
                         <div class="Logo-Container">
-                            <div class="text-3d">
-                                Company 
-                            </div>
+                            <a class="Logo-Anchor" href="{% url 'main_page' %}">
+                                <div class="text-3d">
+                                    Company 
+                                </div>
+                            </a>
                         </div>  
                     </div>
                 </div>
@@ -56,7 +58,7 @@
                               </div>
                             <div class="Login-Form-bundle">
                                 <div class="Register-Anchor-Button-Wrap">
-                                    <a href="" class="Cancle-Button">Cancle</a>
+                                    <a href="{% url 'login_page' %}" class="Cancle-Button">Cancle</a>
                                 </div>
                                 <div class="Login-Button-Wrap">
                                     <button type="submit" class="Login-Button">Submit</button>

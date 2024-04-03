@@ -18,9 +18,11 @@
                 <div class="Header-Wrap">
                     <!-- 로고 -->
                     <div class="Logo-Container">
-                        <div class="text-3d">
-                            Company 
-                        </div>
+                        <a class="Logo-Anchor" href="{% url 'main_page' %}">
+                            <div class="text-3d">
+                                Company 
+                            </div>
+                        </a>
                     </div>
                     <!-- 검색? -->
                     <div class="Search-Container">
@@ -35,14 +37,14 @@
                     <div class="Login-Container">
                         <div class="Login-Wrap">
                             <div class="Login-Box">
-                                <a href="" class="btn btn-outline-secondary btn-custom">Login</a>
+                                <a href="{% url 'login_page' %}" class="btn btn-outline-secondary btn-custom">Login</a>
                             </div>
                         </div>
                     </div>
                     <!-- 회원가입 버튼 -->
                     <div class="Register-Container">
                         <div class="Register-Wrap">
-                            <a href="" class="btn btn-outline-dark btn-custom">Register</a>
+                            <a href="{% url 'signup_page' %}" class="btn btn-outline-dark btn-custom">Register</a>
                         </div>
                     </div>
                     <!-- 로그아웃 버튼 -> 회원가입위치 (일반 사용자) 300px -->
@@ -60,10 +62,10 @@
             <div class="Navbar-Container">
                 <div class="Navbar-Wrap">
                     <div class="Navbar-Box">
-                        <a class="Navbar-Anchor" href="#">게시판</a>
+                        <a class="Navbar-Anchor" href="{% url 'board_list' %}">게시판</a>
                     </div>
                     <div class="Navbar-Box">
-                        <a class="Navbar-Anchor" href="#">Home</a>
+                        <a class="Navbar-Anchor" href="{% url 'main_page' %}">Home</a>
                     </div>
                     <div class="Navbar-Box">
                         <a class="Navbar-Anchor" href="#">과제제출</a>
@@ -159,7 +161,7 @@
                     <div class="BoardDetail-Button-Container">
                         <div class="Detail-Button-Wrap">
                             <div class="Detail-Button-Box">
-                                <a class="Action-Detail-button" href="">글쓰기</a>
+                                <a class="Action-Detail-button" href="{% url 'board_create' %}">글쓰기</a>
                             </div>
                         </div>
                     </div>

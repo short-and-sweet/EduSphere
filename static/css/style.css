@@ -292,6 +292,17 @@ td {
     max-width: 5px; /* 적절한 최대 너비 설정 */
 }
 
+.detail-Anchor {
+    text-decoration: none;
+    color: #131723;
+}
+.detail-Anchor:hover {
+    text-decoration: underline;
+}
+.Logo-Anchor {
+    text-decoration: none; /* 밑줄 제거 */
+}
+
 /* Footer 모음 */
 .Footer-Container {
     width: 1080px;

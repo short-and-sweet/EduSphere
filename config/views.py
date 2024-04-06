@@ -10,6 +10,7 @@ def login_page(request):
 
 # 회원가입 페이지 뷰    
 def signup_page(request):
+    
     return render(request, 'signup_page.html')
 
 # 게시판 목록 페이지 뷰

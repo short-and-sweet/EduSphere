@@ -108,85 +108,35 @@
                                 <table class="table">
                                     <thead>
                                       <tr>
-                                        <th scope="col" style="width: 20%;"></th>
+                                        <th scope="col" style="width: 20%;">번호</th>
                                         <th scope="col" style="width: 40%;">제목</th>
                                         <th scope="col" style="width: 20%;">작성자</th>
                                         <th scope="col" style="width: 20%;">날짜</th>
                                       </tr>
                                     </thead>
                                     <tbody>
+                                        {% for board in page_obj %}
                                         <tr>
-                                            <th scope="row">1</th>
-                                            <td><a class="detail-Anchor" href="{% url 'board_detail' 0 %}">공업수학 족보좀</a></td>
-                                            <td>김민재</td>
-                                            <td>24.03.15</td>
-                                          </tr>
-                                          <tr>
-                                            <th scope="row">2</th>
-                                            <td><a class="detail-Anchor" href="{% url 'board_detail' 0 %}">라운지 커피가 다 떨어졌어요</a></td>
-                                            <td>조정민</td>
-                                            <td>24.02.26</td>
-                                          </tr>
-                                          <tr>
-                                            <th scope="row">3</th>
-                                            <td><a class="detail-Anchor" href="{% url 'board_detail' 0 %}">휴일을 늘려주세요</a></td>
-                                            <td>임수민</td>
-                                            <td>24.02.3</td>
-                                          </tr>
-                                          <tr>
-                                            <th scope="row">4</th>
-                                            <td><a class="detail-Anchor" href="{% url 'board_detail' 0 %}">방에서 비콘찍을래요</a></td>
-                                            <td>김아현</td>
-                                            <td>24.01.21</td>
-                                          </tr>
-                                          <tr>
-                                            <th scope="row">5</th>
-                                            <td><a class="detail-Anchor" href="{% url 'board_detail' 0 %}">아침 등교를 없애자</a></td>
-                                            <td>문성호</td>
-                                            <td>24.01.06</td>
-                                        </tr><tr>
-                                            <th scope="row">6</th>
-                                            <td><a class="detail-Anchor" href="{% url 'board_detail' 0 %}">공업수학 족보좀</a></td>
-                                            <td>김민재</td>
-                                            <td>24.03.15</td>
-                                          </tr>
-                                          <tr>
-                                            <th scope="row">7</th>
-                                            <td><a class="detail-Anchor" href="{% url 'board_detail' 0 %}">라운지 커피가 다 떨어졌어요</a></td>
-                                            <td>조정민</td>
-                                            <td>24.02.26</td>
-                                          </tr>
-                                          <tr>
-                                            <th scope="row">8</th>
-                                            <td><a class="detail-Anchor" href="{% url 'board_detail' 0 %}">휴일을 늘려주세요</a></td>
-                                            <td>임수민</td>
-                                            <td>24.02.3</td>
-                                          </tr>
-                                          <tr>
-                                            <th scope="row">9</th>
-                                            <td><a class="detail-Anchor" href="{% url 'board_detail' 0 %}">방에서 비콘찍을래요</a></td>
-                                            <td>김아현</td>
-                                            <td>24.01.21</td>
-                                          </tr>
-                                          <tr>
-                                            <th scope="row">10</th>
-                                            <td><a class="detail-Anchor" href="{% url 'board_detail' 0 %}">아침 등교를 없애자</a></td>
-                                            <td>문성호</td>
-                                            <td>24.01.06</td>
+                                            <th scope="row">{{ board.id }}</th>
+                                            <td><a class="detail-Anchor" href="{% url 'board_detail' board.id %}">{{ board.title }}</a></td>
+                                            <td>{{ board.author.name }}</td>
+                                            <td>{{ board.created_at|date:"Y.m.d" }}</td>
                                         </tr>
-                                    </tbody>
+                                        {% endfor %}
                                 </table>
                             </div>
                             <div class="BoardList-Button-Bundle">
                                 <div class="Pagenation-Container">
                                     <div class="Pagenation-Wrap">
-                                        <a href="#" class="prev pageA">&#9664;</a>
-                                        <a href="#" class="page pageA">1</a>
-                                        <a href="#" class="page pageA">2</a>
-                                        <a href="#" class="page pageA">3</a>
-                                        <a href="#" class="page pageA">4</a>
-                                        <a href="#" class="page pageA">5</a>
-                                        <a href="#" class="next pageA">&#9654;</a>
+                                        {% if page_obj.has_previous %}
+                                            <a href="?page={{ page_obj.previous_page_number }}" class="prev pageA">&#9664;</a>
+                                        {% endif %}
+                                        {% for num in page_obj.paginator.page_range %}
+                                            <a href="?page={{ num }}" class="page pageA">{{ num }}</a>
+                                        {% endfor %}
+                                        {% if page_obj.has_next %}
+                                            <a href="?page={{ page_obj.paginator.num_pages }}" class="next pageA">&#9654;</a>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="BoardUpload-Container">

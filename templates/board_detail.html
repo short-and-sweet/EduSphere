@@ -103,7 +103,7 @@
                             <!-- 제목    -->
                             <div class="Detail-Title">
                                 <div class="Detail-Title-Wrap">
-                                    공업수학 족보좀
+                                    {{ board.title }}
                                 </div>
                             </div>
                             <!-- 정보    -->
@@ -114,20 +114,21 @@
                                 </div>
                                 <div class="Detail-Profile-Wrap">
                                     <!-- 작성자 -->
-                                    <div class="Detail-Profile-author">진켄</div>
+                                    <div class="Detail-Profile-author">{{ board.author.name }}</div>
                                     <!-- 날짜 -->
-                                    <div class="Detail-Date">22.05.15</div>
+                                    <div class="Detail-Date">{{ board.created_at }}</div>
                                 </div>
                             </div>
                             <!-- 내용    -->
                             <div class="Detail-Content">
                                 <div class="Detail-Content-Wrap">
-                                    <div class="Detail-Content-Box">대충 내용이 들어갈 공간인데</div>
+                                    <div class="Detail-Content-Box">{{ board.content }}</div>
                                 </div>
                             </div>
                             <!-- 댓글란   -->
                             <div class="Detail-Comment-Bundle">
                                 <!-- 작성된 댓글     -->
+                                {% for comment in comments %}
                                 <div class="Detail-Commented">
                                     <!-- 프로필 -->
                                     <div class="Detail-Comment-Img-Container">
@@ -136,14 +137,15 @@
                                     <div class="Detail-Comment-Profile">
                                         <!-- 작성자 이름 -->
                                         <div class="Detail-Comment-Author-Container">
-                                            작성자1
+                                            {{ comment.user.name }}
                                         </div>
                                         <!-- 내용 -->
                                         <div class="Detail-Comment-Content">
-                                            asdsadasdasdasdsadasdasdasdaadsadadasdasasddddddddddddddddddddddddddddddddddddddddddddddddasdasdasdasd
+                                            {{ comment.text }}
                                         </div>
                                     </div>
                                 </div>
+                                {% endfor %}
                                 <!-- 댓글 작성 폼     -->
                                 <div class="Detail-Commenting">
                                     <div class="comment-form-container">

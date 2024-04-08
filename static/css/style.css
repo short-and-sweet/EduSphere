@@ -390,7 +390,7 @@ td {
 }
 .Login-Form-Wrap {
     width: 600px;
-    height: 360px;
+    min-height: 360px;
     margin: auto;
     justify-content: center;
     align-items: center;
@@ -442,17 +442,18 @@ td {
 /* 회원가입 페이지 */
 .Regist-Content-Container{
     width: 1080px;
-    height: 520px;
+    min-height: 520px;
 }
 .Regist-Form-Container {
     width: 1080px;
-    height: 420px;
+    min-height: 420px;
 }
 
 .Regist-Form-Box {
     width: 460px;
-    height: 420px;
+    height: 500px;
     margin: 10px auto;
+    background-color: #007bff;
 }
 
 .Cancle-Button, .Board-Cancle {
@@ -736,14 +737,3 @@ td {
     width: 110px;
     height: 40px;
 }
-
-
-
-.Board-Upload {
-
-}
-
-
-
-
-/* 게시글 수정 페이지 */

@@ -119,7 +119,7 @@
                                         <tr>
                                             <th scope="row">{{ board.id }}</th>
                                             <td><a class="detail-Anchor" href="{% url 'board_detail' board.id %}">{{ board.title }}</a></td>
-                                            <td>{{ board.author.name }}</td>
+                                            <td>{{ board.author.username }}</td>
                                             <td>{{ board.created_at|date:"Y.m.d" }}</td>
                                         </tr>
                                         {% endfor %}

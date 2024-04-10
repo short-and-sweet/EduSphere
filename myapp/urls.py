@@ -22,16 +22,22 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.main_page, name='main_page'),                                    # 메인 페이지
-    
 
     path('board/', views.board_list, name='board_list'),                            # 게시판 목록 페이지
     path('board/create/', views.board_create, name='board_create'),                 # 게시판 등록 페이지
     path('board/<int:board_id>/update/', views.board_update, name='board_update'),  # 게시판 수정 페이지
+
     path('board/<int:board_id>/', views.board_detail, name='board_detail'),         # 상세 게시판 페이지
+    
+    path('board/create/process', views.board_c, name='board_create_process'),       # 게시글 등록
+    path('board/update/process', views.board_u, name='board_update_process'),       # 게시글 수정
+    path('board/<int:board_id>/delete/', views.board_delete, name='board_delete'),  # 게시글 삭제 
 
     path('signup/', views.show_signup_page, name='signup_page'),                    # 회원가입 페이지
     path('signup/process/', views.signup, name='signup_process'),                   # 'signup'은 회원가입을 처리하는 뷰 함수의 이름
 
     path('login/', views.show_login_page, name='login_page'),    
     path('login/process', views.login_user, name='login_process'),  # 로그인 URL
+
+    path('logout/', views.logout_view, name='logout'),
 ]

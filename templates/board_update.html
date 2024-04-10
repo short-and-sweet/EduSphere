@@ -33,6 +33,15 @@
                             </form>
                         </div>
                     </div>
+                    {% if user.is_authenticated %}
+                    <div class="Logout-Container">
+                        <div class="Logout-Wrap">
+                            <div class="Logout-Box">
+                                <a href="{% url 'logout' %}" class="btn btn-outline-dark btn-custom">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}  
                     <!-- 로그인 버튼 -->
                     <div class="Login-Container">
                         <div class="Login-Wrap">
@@ -47,15 +56,7 @@
                             <a href="{% url 'signup_page' %}" class="btn btn-outline-dark btn-custom">Register</a>
                         </div>
                     </div>
-                    <!-- 로그아웃 버튼 -> 회원가입위치 (일반 사용자) 300px -->
-                    <!-- 로그아웃(회원가입) + 관리자버튼(로그인) 300 px  -->
-                    <!-- <div class="Logout-Container">
-                        <div class="Logout-Wrap">
-                            <div class="Logout-Box">
-                                <a href="" class="btn btn-outline-dark btn-custom">Logout</a>
-                            </div>
-                        </div>
-                    </div> -->
+                    {% endif %} 
                 </div>
             </div>
             <!-- Navbar -->
@@ -83,10 +84,18 @@
                         <div class="Profile-wrap">
                             <img class="Profile-image" src="{% static 'images/hun.jpg' %}"> 
                         </div>
+                        {% if user.is_authenticated %}
                         <div class="Info-wrap">
-                            <div class="Info-name">이름: 진켄</div>
-                            <div class="Info-role">등급: 관리자</div>    
+                            <div class="Info-name">이름: {{ user.first_name }}{{ user.last_name }}</div>
+                            <div class="Info-role">등급: 회원</div>    
                         </div>
+                         
+                        {% else %}  
+                        <div class="Info-wrap">
+                            <div class="Info-name">이름: ㅇㅇ</div>
+                            <div class="Info-role">등급: 비회원</div>    
+                        </div>
+                        {% endif %}
                         
                     </div>
                     <div class="SideBar-Action">
@@ -105,26 +114,25 @@
                                 </div>
                             </div>
                             <div class="BoardListTable-Container">
-                                <form class="BoardCreate">
+                                <form class="BoardCreate" method="post" action="{% url 'board_update_process' %}">
+                                    {% csrf_token %}
                                     <div class="mb-3">
-                                        <input type="title" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력하시오">
-                                      </div>
-                                      <div class="mb-3">
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="7" placeholder="내용을 입력하시오"></textarea>
-                                      </div>
-                                      <div class="BoardUpDelete-Button-Bundle">
-                                        
-                                        <div class="BoardUpDelete-Blank">
-                                            
+                                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력하시오" value="{{ board.title }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="7" placeholder="내용을 입력하시오" >{{ board.content }}</textarea>
+                                    </div>
+                                    <div class="BoardUpDelete-Button-Bundle">
+                                    <div class="BoardUpDelete-Blank">
+                                    </div>
+                                    <div class="BoardUpDelete-Form-bundle">
+                                        <div class="Board-Cancle-Anchor-Wrap">
+                                            <a href="{% url 'board_list' %}" class="Board-Cancle">Cancle</a>
                                         </div>
-                                        <div class="BoardUpDelete-Form-bundle">
-                                            <div class="Board-Cancle-Anchor-Wrap">
-                                                <a href="{% url 'board_list' %}" class="Board-Cancle">Cancle</a>
-                                            </div>
-                                            <div class="Board-Upload-Button-Wrap">
-                                                <button type="submit" class="Board-Upload">Update</button>
-                                            </div>
-                                        </div> 
+                                        <div class="Board-Upload-Button-Wrap">
+                                            <button type="submit" class="Board-Upload">Update</button>
+                                        </div>
+                                    </div> 
                                     </div>
                                 </form>
                             </div>

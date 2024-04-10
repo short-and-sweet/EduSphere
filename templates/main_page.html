@@ -54,6 +54,15 @@
                             </form>
                         </div>
                     </div>
+                    {% if user.is_authenticated %}
+                    <div class="Logout-Container">
+                        <div class="Logout-Wrap">
+                            <div class="Logout-Box">
+                                <a href="{% url 'logout' %}" class="btn btn-outline-dark btn-custom">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}  
                     <!-- 로그인 버튼 -->
                     <div class="Login-Container">
                         <div class="Login-Wrap">
@@ -68,15 +77,8 @@
                             <a href="{% url 'signup_page' %}" class="btn btn-outline-dark btn-custom">Register</a>
                         </div>
                     </div>
-                    <!-- 로그아웃 버튼 -> 회원가입위치 (일반 사용자) 300px -->
-                    <!-- 로그아웃(회원가입) + 관리자버튼(로그인) 300 px  -->
-                    <!-- <div class="Logout-Container">
-                        <div class="Logout-Wrap">
-                            <div class="Logout-Box">
-                                <a href="" class="btn btn-outline-dark btn-custom">Logout</a>
-                            </div>
-                        </div>
-                    </div> -->
+                    {% endif %} 
+                    
                 </div>
             </div>
             <!-- Navbar -->
@@ -104,11 +106,18 @@
                         <div class="Profile-wrap">
                             <img class="Profile-image" src="{% static 'images/hun.jpg' %}"> 
                         </div>
+                        {% if user.is_authenticated %}
                         <div class="Info-wrap">
-                            <div class="Info-name">이름: 진켄</div>
-                            <div class="Info-role">등급: 관리자</div>    
+                            <div class="Info-name">이름: {{ user.first_name }}{{ user.last_name }}</div>
+                            <div class="Info-role">등급: 회원</div>    
                         </div>
-                        
+                         
+                        {% else %}  
+                        <div class="Info-wrap">
+                            <div class="Info-name">이름: ㅇㅇ</div>
+                            <div class="Info-role">등급: 비회원</div>    
+                        </div>
+                        {% endif %}
                     </div>
                     <div class="SideBar-Action">
                         <div class="Action-Wrap">
@@ -140,7 +149,7 @@
                                         <tr>
                                             <th scope="row">{{ forloop.counter }}</th>
                                             <td><a class="detail-Anchor" href="{% url 'board_detail' board.id %}">{{ board.title }}</a></td>
-                                            <td>{{ board.author.username }}</td>
+                                            <td>{{ board.author.first_name }}{{ board.author.last_name }}</td>
                                             <td>{{ board.created_at|date:"Y.m.d" }}</td>
                                         </tr>
                                         {% endfor %}

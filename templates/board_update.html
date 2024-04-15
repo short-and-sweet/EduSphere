@@ -114,13 +114,13 @@
                                 </div>
                             </div>
                             <div class="BoardListTable-Container">
-                                <form class="BoardCreate" method="post" action="{% url 'board_update_process' %}">
+                                <form class="BoardCreate" method="post" action="{% url 'board_process' board.id %}">
                                     {% csrf_token %}
                                     <div class="mb-3">
-                                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력하시오" value="{{ board.title }}">
+                                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력하시오" value="{{ board.title }}" name="title">
                                     </div>
                                     <div class="mb-3">
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="7" placeholder="내용을 입력하시오" >{{ board.content }}</textarea>
+                                        <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="7" placeholder="내용을 입력하시오" >{{ board.content }}</textarea>
                                     </div>
                                     <div class="BoardUpDelete-Button-Bundle">
                                     <div class="BoardUpDelete-Blank">

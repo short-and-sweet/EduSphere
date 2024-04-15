@@ -144,6 +144,7 @@
                                         <img src="{% static 'images/jingga.jpg' %}" class="Detail-Image-Box">
                                     </div>
                                     <div class="Detail-Comment-Profile">
+                                        <input type="hidden" name="board_id" value="{{ board_id }}">
                                         <!-- 작성자 이름 -->
                                         <div class="Detail-Comment-Author-Container">
                                             {{ comment.user.first_name }}{{ comment.user.last_name }}

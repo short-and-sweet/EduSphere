@@ -30,7 +30,7 @@ urlpatterns = [
     path('board/<int:board_id>/', views.board_detail, name='board_detail'),         # 상세 게시판 페이지
     
     path('board/create/process', views.board_c, name='board_create_process'),       # 게시글 등록
-    path('board/update/process', views.board_u, name='board_update_process'),       # 게시글 수정
+    path('board/<int:board_id>/process', views.board_u, name='board_process'),       # 게시글 수정
     path('board/<int:board_id>/delete/', views.board_delete, name='board_delete'),  # 게시글 삭제 
 
     path('signup/', views.show_signup_page, name='signup_page'),                    # 회원가입 페이지

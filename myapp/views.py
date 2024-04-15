@@ -64,18 +64,18 @@ def board_detail(request, board_id):
 
 #####################################################################################
 def board_c(request):
-
-    board = Board() # 데이터 저장을 위한 객체 생성
+    board = Board()
     board.title = request.POST['title']
     board.author_id = request.user.id
     board.content = request.POST['content']
-    board.save() # 객체 저장
+    board.save()
 
     return redirect('board_list')  # 삭제 후 목록 페이지로 이동하도록 설정
 
-def board_u(request):
-
-    board = Board() # 데이터 저장을 위한 객체 생성
+def board_u(request, board_id):
+    # print(board_id)
+    # return HttpResponse(200)
+    board = Board.objects.get(pk=board_id) # 데이터 저장을 위한 객체 생성
     board.title = request.POST['title']
     board.author_id = request.user.id
     board.content = request.POST['content']

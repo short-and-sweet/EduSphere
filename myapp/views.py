@@ -25,6 +25,10 @@ def show_login_page(request):
 def show_signup_page(request):
     return render(request, 'signup_page.html')
 
+# 피난소 시설 페이지 뷰
+def shelter_page(request):
+    return render(request, 'shelter_page.html')
+
 # 게시판 목록 페이지 뷰
 def board_list(request):
 

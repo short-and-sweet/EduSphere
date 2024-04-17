@@ -30,14 +30,16 @@ urlpatterns = [
     path('board/<int:board_id>/', views.board_detail, name='board_detail'),         # 상세 게시판 페이지
     
     path('board/create/process', views.board_c, name='board_create_process'),       # 게시글 등록
-    path('board/<int:board_id>/process', views.board_u, name='board_process'),       # 게시글 수정
+    path('board/<int:board_id>/process', views.board_u, name='board_process'),      # 게시글 수정
     path('board/<int:board_id>/delete/', views.board_delete, name='board_delete'),  # 게시글 삭제 
 
     path('signup/', views.show_signup_page, name='signup_page'),                    # 회원가입 페이지
     path('signup/process/', views.signup, name='signup_process'),                   # 'signup'은 회원가입을 처리하는 뷰 함수의 이름
 
     path('login/', views.show_login_page, name='login_page'),    
-    path('login/process', views.login_user, name='login_process'),  # 로그인 URL
+    path('login/process', views.login_user, name='login_process'),                  # 로그인 URL
 
     path('logout/', views.logout_view, name='logout'),
+
+    path('shelter/', views.shelter_page, name='shelter_page'),                            # 피난소 지도 페이지
 ]

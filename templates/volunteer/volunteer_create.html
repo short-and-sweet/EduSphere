@@ -4,11 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>피난대피시설</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?after">
-    <link rel="stylesheet"  href="{% static 'css/api.css' %}?after">
-
-
+    <title>volunteer_create</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/distribute.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     
 </head>
@@ -82,7 +80,7 @@
             <!-- Side Bar & Content -->
             <div class="SideBar-Content-Wrap">
                 <!-- Side Bar -->
-                <div class="SideBar-Contaniner">
+                <div class="SideBar-Contaniner" style="height: 1300px;">
                     <div class="SideBar-Info">
                         <div class="Profile-wrap">
                             <img class="Profile-image" src="{% static 'images/hun.jpg' %}"> 
@@ -108,45 +106,77 @@
                     </div>
                 </div>
                 <!-- Content -->
-                <div class="Content-Container" contenteditable="false">
+                <div class="Content-Container">
                     <!-- 540 -->
                     <div class="BoardDetail-Content-Container">
                         <div class="BoardDetail-Wrap">
                             <!-- 제목    -->
                             <div class="Detail-Title">
-                                <div class="row flexWrap">
-                                    
+                                <div class="Detail-Title-Wrap mt-3 mb3">
+                                    봉사 모집 등록
                                 </div>
-                            </div>
-                            <!-- 정보    -->
-                            <div class="Detail-Profile">
-                                <div class="container text-center">
-                                    <div class="row" id="flexWrap">
-                                        <form action="{% url 'map_template_click' %}" method="GET" class="category-button-wrap" style="width: 200px;">
-                                            {% csrf_token %}
-                                            <button type="submit" name="button_id" value="1">구호시설</button>
-                                        </form>
-                                        <form action="{% url 'map_template_click' %}" method="GET" class="category-button-wrap" style="width: 200px;">
-                                            {% csrf_token %}
-                                            <button type="submit" name="button_id" value="2">민방위시설</button>
-                                        </form>
-                                        <form action="{% url 'map_template_click' %}" method="GET" class="category-button-wrap" style="width: 200px;">
-                                            {% csrf_token %}
-                                            <button type="submit" name="button_id" value="3">지진</button>
-                                        </form>
-                                        <form action="{% url 'map_template_click' %}" method="GET" class="category-button-wrap" style="width: 200px;">
-                                            {% csrf_token %}
-                                            <button type="submit" name="button_id" value="4">해일</button>
-                                        </form>
-                                    </div>
-                                  </div>
                             </div>
                             <!-- 내용    -->
                             <div class="Detail-Content">
-                                <!-- 지도 들어갈 곳 -->
-                                <!-- 1 -->
-                                {% block content %}
-                                {% endblock %}
+                                <div class="Detail-Content-Wrap">
+                                    <div class="Detail-Content-Box">
+                                        <form class="distributionCreate" style="height: 1200px; width: 740px;" method="post" action="{% url 'volunteer_create_process' %}" >
+                                            {% csrf_token %}
+                                            <div class="mb-3">
+                                                <label for="start_date" class="mb-1">제목</label>
+                                                <input type="title" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력하시오" name="title">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="start_date" class="mb-1">인원수</label>
+                                                <input type="title" class="form-control" id="exampleFormControlInput1" placeholder="인원수를 입력하시오" name="participant_count">
+                                            </div>
+                                            <div class="row g-3 mb-3">
+                                                <div class="col">
+                                                    <label for="start_date" class="mb-1">시작 날짜</label>
+                                                    <input type="date" class="form-control" name="start_date">
+                                                </div>
+                                                <div class="col">
+                                                    <label for="end_date" class="mb-1">종료 날짜</label>
+                                                    <input type="date" class="form-control" name="end_date">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="end_date" class="mb-1">내용</label>
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="7" placeholder="내용을 입력하시오" name="content"></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="end_date" class="mb-1">위치</label>
+                                                <p><em>-> 지도를 클릭해주세요!</em></p> 
+                                                <div class="map_wrap mb-3">
+                                                    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+                                                </div>
+                                                <div class="row g-3 mb-3">
+                                                    <div class="col">
+                                                        <label for="start_date" class="mb-1">위도</label>
+                                                        <input type="number" class="form-control" id="latitude" name="latitude" min="-90" max="90" step="any" required>
+                                                    </div>
+                                                    <div class="col">
+                                                        <label for="end_date" class="mb-1">경도</label>
+                                                        <input type="number" class="form-control" id="longitude" name="longitude" min="-180" max="180" step="any" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="distributionUpDelete-Button-Bundle mb-3">
+                                                <div class="distributionUpDelete-Blank">
+                                                </div>
+                                                <div class="BoardUpDelete-Form-bundle">
+                                                    <div class="Board-Cancle-Anchor-Wrap">
+                                                        <a href="{% url 'volunteer_list' %}" class="Board-Cancle">Cancle</a>
+                                                    </div>
+                                                    <div class="Board-Upload-Button-Wrap">
+                                                        <button type="submit" class="Board-Upload">Submit</button>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                            
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -175,12 +205,6 @@
     </div>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ad3cc57e3e1f9fa8da23ad1f04e02cbf&libraries=services"></script>
 
-    <script src="{% static 'js/kakaoMap.js' %}"></script>
-    <script src="{% static 'js/tsunami.js' %}"></script>
-    <script src="{% static 'js/template.js' %}"></script>
-    <script src="{% static 'js/earthquake.js' %}"></script>
-    <script src="{% static 'js/civilWar.js' %}"></script>
-    <!-- <script src="{% static 'js/my_location.js' %}"></script> -->
-
+    <script src="{% static 'js/distribute/distribution_create.js' %}"></script>
 </body>
 </html>

@@ -1,0 +1,8 @@
+{% extends 'shelter_page.html' %}  {# 템플릿 상속 #}
+
+{% block content %}  {# content 블록 재정의 #}
+<div class="map_wrap">
+    <div id="civilWar_map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+    <button onclick="civilWar_map_setBounds()" style="position: absolute; top: 10px; right: 10px; z-index: 1000; width: 100px; height:30px; background-color: white; font-weight: 700;" >내위치 찾기</button> 
+</div>
+{% endblock %}

@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
+from .views import map_template_click
+
 # app_name = 'myapp'
 
 urlpatterns = [
@@ -37,9 +39,26 @@ urlpatterns = [
     path('signup/process/', views.signup, name='signup_process'),                   # 'signup'은 회원가입을 처리하는 뷰 함수의 이름
 
     path('login/', views.show_login_page, name='login_page'),    
-    path('login/process', views.login_user, name='login_process'),                  # 로그인 URL
+    path('login/process', views.login_user, name='login_process'),                          # 로그인 URL
 
     path('logout/', views.logout_view, name='logout'),
 
-    path('shelter/', views.shelter_page, name='shelter_page'),                            # 피난소 지도 페이지
+    path('shelter/', views.shelter_page, name='shelter_page'),                              # 피난소 지도 페이지
+    path('map_template_click/', map_template_click, name='map_template_click'),
+    
+    path('distribution_map/', views.distribution_map, name='distribution_map'),             # 배급 지도 페이지
+    path('distribution/create/', views.distribution_create, name='distribution_create'),    # 배급 생성 페이지
+    path('distribution/create/process', views.distribution_create_process, name='distribution_create_process'),    # 배급 등록
+    path('get-distribution-data/', views.get_distribution_data, name='get_distribution_data'),    # 배급 데이터 바인딩 (에이잭스 요청)
+
+    # 봉사자
+    path('volunteer/list/', views.volunteer_list, name='volunteer_list'),           # 페이지 이동
+    path('volunteer/create/', views.volunteer_create, name='volunteer_create'),     # 페이지 이동
+    path('volunteer/detail/<int:id>', views.volunteer_detail, name='volunteer_detail'),     # 페이지 이동
+    
+    path('volunteer/create/process/', views.volunteer_create_process, name='volunteer_create_process'), # 봉사모집 등록
+    path('volunteer/join/', views.volunteer_join, name='volunteer_join'),                               # 봉사 참가 
+
+
+    path('test/', views.test, name='test'),                            # 테스트
 ]

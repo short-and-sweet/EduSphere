@@ -4,11 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>피난대피시설</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?after">
-    <link rel="stylesheet"  href="{% static 'css/api.css' %}?after">
-
-
+    <title>BoardDetail</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     
 </head>
@@ -103,50 +100,89 @@
                     </div>
                     <div class="SideBar-Action">
                         <div class="Action-Wrap">
-                            <a class="Action-Board" href="{% url 'board_create' %}">카페 글쓰기</a>
+                            <a class="Action-Board" href="">카페 글쓰기</a>
                         </div>
                     </div>
                 </div>
                 <!-- Content -->
-                <div class="Content-Container" contenteditable="false">
+                <div class="Content-Container">
                     <!-- 540 -->
                     <div class="BoardDetail-Content-Container">
                         <div class="BoardDetail-Wrap">
                             <!-- 제목    -->
                             <div class="Detail-Title">
-                                <div class="row flexWrap">
-                                    
+                                <div class="Detail-Title-Wrap">
+                                    {{ board.title }}
                                 </div>
                             </div>
                             <!-- 정보    -->
                             <div class="Detail-Profile">
-                                <div class="container text-center">
-                                    <div class="row" id="flexWrap">
-                                        <form action="{% url 'map_template_click' %}" method="GET" class="category-button-wrap" style="width: 200px;">
-                                            {% csrf_token %}
-                                            <button type="submit" name="button_id" value="1">구호시설</button>
-                                        </form>
-                                        <form action="{% url 'map_template_click' %}" method="GET" class="category-button-wrap" style="width: 200px;">
-                                            {% csrf_token %}
-                                            <button type="submit" name="button_id" value="2">민방위시설</button>
-                                        </form>
-                                        <form action="{% url 'map_template_click' %}" method="GET" class="category-button-wrap" style="width: 200px;">
-                                            {% csrf_token %}
-                                            <button type="submit" name="button_id" value="3">지진</button>
-                                        </form>
-                                        <form action="{% url 'map_template_click' %}" method="GET" class="category-button-wrap" style="width: 200px;">
-                                            {% csrf_token %}
-                                            <button type="submit" name="button_id" value="4">해일</button>
-                                        </form>
-                                    </div>
-                                  </div>
+                                <!-- 프로필 -->
+                                <div class="Detail-Image-Wrap">
+                                    <img src="{% static 'images/hun.jpg' %}" class="Detail-Image-Box">
+                                </div>
+                                <div class="Detail-Profile-Wrap">
+                                    <!-- 작성자 -->
+                                    <div class="Detail-Profile-author">{{ board.author.first_name }}{{ board.author.last_name }}</div>
+                                    <!-- 날짜 -->
+                                    <div class="Detail-Date">{{ board.created_at }}</div>
+                                </div>
                             </div>
                             <!-- 내용    -->
                             <div class="Detail-Content">
-                                <!-- 지도 들어갈 곳 -->
-                                <!-- 1 -->
-                                {% block content %}
-                                {% endblock %}
+                                <div class="Detail-Content-Wrap">
+                                    <div class="Detail-Content-Box">{{ board.content }}</div>
+                                </div>
+                            </div>
+                            <!-- 댓글란   -->
+                            <div class="Detail-Comment-Bundle">
+                                <!-- 작성된 댓글     -->
+                                {% for comment in comments %}
+                                <div class="Detail-Commented">
+                                    <!-- 프로필 -->
+                                    <div class="Detail-Comment-Img-Container">
+                                        <img src="{% static 'images/jingga.jpg' %}" class="Detail-Image-Box">
+                                    </div>
+                                    <div class="Detail-Comment-Profile">
+                                        <input type="hidden" name="board_id" value="{{ board_id }}">
+                                        <!-- 작성자 이름 -->
+                                        <div class="Detail-Comment-Author-Container">
+                                            {{ comment.user.first_name }}{{ comment.user.last_name }}
+                                        </div>
+                                        <!-- 내용 -->
+                                        <div class="Detail-Comment-Content">
+                                            {{ comment.text }}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <!-- 댓글 작성 폼     -->
+                                <div class="Detail-Commenting">
+                                    <div class="comment-form-container">
+                                        <form action="/submit-comment" method="post" class="Comment-Form">
+                                            <textarea class="comment-form-field" name="comment" rows="4" placeholder="댓글을 입력하세요..."></textarea>
+                                            <button type="submit" class="Action-Detail-button">댓글 제출</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 40 -->
+                    <div class="BoardDetail-Button-Container">
+                        <div class="detail-blank"></div>
+                        <div class="Detail-Button-Wrap">
+                            {% if request.user == board.author %}
+                            <div class="Detail-Button-Box">
+                                <a class="Action-DetailUpdate-button" href="{% url 'board_update' board.id %}">글수정</a>
+                            </div>
+                            <div class="Detail-Button-Box">
+                                <a class="Action-DetailDelete-button" href="{% url 'board_delete' board.id %}">글삭제</a>
+                            </div>
+                            {% endif %}
+                            <div class="Detail-Button-Box">
+                                <a class="Action-Detail-button" href="{% url 'board_create' %}">글쓰기</a>
                             </div>
                         </div>
                     </div>
@@ -173,14 +209,5 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ad3cc57e3e1f9fa8da23ad1f04e02cbf&libraries=services"></script>
-
-    <script src="{% static 'js/kakaoMap.js' %}"></script>
-    <script src="{% static 'js/tsunami.js' %}"></script>
-    <script src="{% static 'js/template.js' %}"></script>
-    <script src="{% static 'js/earthquake.js' %}"></script>
-    <script src="{% static 'js/civilWar.js' %}"></script>
-    <!-- <script src="{% static 'js/my_location.js' %}"></script> -->
-
 </body>
 </html>

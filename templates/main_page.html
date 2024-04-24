@@ -79,7 +79,7 @@
                 </div>
             </div>
             <!-- Side Bar & Content -->
-            <div class="SideBar-Content-Wrap">
+            <div class="SideBar-Content-Wrap" style="min-height: 600px;">
                 <!-- Side Bar -->
                 <div class="SideBar-Contaniner">
                     <div class="SideBar-Info">
@@ -100,9 +100,11 @@
                         {% endif %}
                     </div>
                     <div class="SideBar-Action">
-                        <div class="Action-Wrap">
-                            <a class="Action-Board" href="{% url 'board_create' %}">카페 글쓰기</a>
-                        </div>
+                        {% if user.is_authenticated %}
+                            <div class="Action-Wrap">
+                                <a class="Action-Board" href="{% url 'board_create' %}">카페 글쓰기</a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
                 <!-- Content -->
@@ -111,10 +113,10 @@
                         <div class="Content-Box">
                             <div class="title-Container">
                                 <div class="title-Box">
-                                    <div class="title-Div">게시판</div>
+                                    <div class="title-Div mt-3 mb-3">게시판</div>
                                 </div>
                             </div>
-                            <div class="table-Container">
+                            <div class="table-Container mb-3">
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -126,12 +128,12 @@
                                     </thead>
                                     <tbody>
                                         {% for board in latest_boards %}
-                                        <tr>
-                                            <th scope="row">{{ forloop.counter }}</th>
-                                            <td><a class="detail-Anchor" href="{% url 'board_detail' board.id %}">{{ board.title }}</a></td>
-                                            <td>{{ board.author.first_name }}{{ board.author.last_name }}</td>
-                                            <td>{{ board.created_at|date:"Y.m.d" }}</td>
-                                        </tr>
+                                            <tr>
+                                                <th scope="row">{{ forloop.counter }}</th>
+                                                <td><a class="detail-Anchor" href="{% url 'board_detail' board.id %}">{{ board.title }}</a></td>
+                                                <td>{{ board.author.first_name }}{{ board.author.last_name }}</td>
+                                                <td>{{ board.created_at|date:"Y.m.d" }}</td>
+                                            </tr>
                                         {% endfor %}
                                     </tbody>
                                 </table>
@@ -142,50 +144,46 @@
                         <div class="Content-Box">
                             <div class="title-Container">
                                 <div class="title-Box">
-                                    <div class="title-Div">과제제출</div>
+                                    <div class="title-Div mt-3 mb-3">봉사자 모집</div>
                                 </div>
                             </div>
-                            <div class="table-Container">
+                            <div class="table-Container mb-3 mt-3">
                                 <table class="table">
                                     <thead>
                                       <tr>
-                                        <th scope="col" style="width: 10%;"></th>
-                                        <th scope="col" style="width: 50%;">제목</th>
-                                        <th scope="col" style="width: 20%;">작성자</th>
-                                        <th scope="col" style="width: 20%;">날짜</th>
+                                        <th scope="col" style="width: 15%;">번호</th>
+                                        <th scope="col" style="width: 40%;">제목</th>
+                                        <th scope="col" style="width: 10%;">인원</th>
+                                        <th scope="col" style="width: 15%;">작성자</th>
+                                        <th scope="col" style="width: 20%;">시작날짜</th>
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <tr>
-                                        <th scope="row">1</th>
-                                        <td><a class="detail-Anchor" href="{% url 'board_detail' 0 %}">***</a></td>
-                                        <td>***</td>
-                                        <td>***</td>
-                                      </tr>
-                                      <tr>
-                                        <th scope="row">2</th>
-                                        <td><a class="detail-Anchor" href="{% url 'board_detail' 0 %}">***</a></td>
-                                        <td>***</td>
-                                        <td>***</td>
-                                      </tr>
-                                      <tr>
-                                        <th scope="row">3</th>
-                                        <td><a class="detail-Anchor" href="{% url 'board_detail' 0 %}">***</a></td>
-                                        <td>***</td>
-                                        <td>***</td>
-                                      </tr>
-                                      <tr>
-                                        <th scope="row">4</th>
-                                        <td><a class="detail-Anchor" href="{% url 'board_detail' 0 %}">***</a></td>
-                                        <td>***</td>
-                                        <td>***</td>
-                                      </tr>
-                                      <tr>
-                                        <th scope="row">5</th>
-                                        <td><a class="detail-Anchor" href="{% url 'board_detail' 0 %}">***</a></td>
-                                        <td>***</td>
-                                        <td>***</td>
-                                      </tr>
+                                        {% for volunteer in latest_volunteers %}
+                                            <tr>
+                                                <th scope="row">{{ forloop.counter }}</th>
+                                                <td><a class="detail-Anchor" href="{% url 'volunteer_detail' volunteer.id %}">{{ volunteer.title }}</a></td>
+                                                <td>{{ volunteer.participant_count }}</td>
+                                                <td>{{ volunteer.user.first_name }}{{ volunteer.user.last_name }}</td>
+                                                <td>{{ volunteer.start_date|date:"Y.m.d" }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        <!-- {% for volunteer in latest_volunteers %}
+                                        <tr>
+                                            <th scope="row">{{ volunteer.id }}</th>
+                                            <td><a class="detail-Anchor" href="{% url 'volunteer_detail' volunteer.id %}">
+                                                {% if not volunteer.recruitment_completed == False %}
+                                                    [ --- 모집 완료 --- ]
+                                                {% else %}
+                                                    {{ volunteer.title }}
+                                                {% endif %}
+                                            </a></td>
+                                            <td>{{ volunteer.participant_count }}</td>
+                                            <td>{{ volunteer.user.first_name }}{{ volunteer.user.last_name }}</td>
+                                            <td>{{ volunteer.start_date|date:"Y.m.d" }}</td>
+                                        </tr>
+                                        {% endfor %} -->
+                                    
                                     </tbody>
                                 </table>
                             </div>
@@ -215,5 +213,12 @@
             </div>
         </div>
     </div>
+{% if messages %}
+    <script>
+        {% for message in messages %}
+            alert("{{ message }}");
+        {% endfor %}
+    </script>
+{% endif %}
 </body>
 </html>

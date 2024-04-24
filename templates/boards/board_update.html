@@ -99,9 +99,11 @@
                         
                     </div>
                     <div class="SideBar-Action">
-                        <div class="Action-Wrap">
-                            <a class="Action-Board" href="{% url 'board_create' %}">카페 글쓰기</a>
-                        </div>
+                        {% if user.is_authenticated %}
+                            <div class="Action-Wrap">
+                                <a class="Action-Board" href="{% url 'board_create' %}">카페 글쓰기</a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
                 <!-- Content -->

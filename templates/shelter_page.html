@@ -102,20 +102,22 @@
                         
                     </div>
                     <div class="SideBar-Action">
-                        <div class="Action-Wrap">
-                            <a class="Action-Board" href="{% url 'board_create' %}">카페 글쓰기</a>
-                        </div>
+                        {% if user.is_authenticated %}
+                            <div class="Action-Wrap">
+                                <a class="Action-Board" href="{% url 'board_create' %}">카페 글쓰기</a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
                 <!-- Content -->
                 <div class="Content-Container" contenteditable="false">
                     <!-- 540 -->
-                    <div class="BoardDetail-Content-Container">
-                        <div class="BoardDetail-Wrap">
+                    <div class="BoardDetail-Content-Container" style="align-items: unset; min-height: 120px;">
+                        <div class="BoardDetail-Wrap" style="min-height:120px;">
                             <!-- 제목    -->
                             <div class="Detail-Title">
-                                <div class="row flexWrap">
-                                    
+                                <div class="row mt-4" style="font-weight: 600; color: darkblue; font-size: 22px; width: 200px; margin-left: 50px; height: 50px; min-height: 25px;">
+                                    인근 시설맵
                                 </div>
                             </div>
                             <!-- 정보    -->
@@ -142,7 +144,7 @@
                                   </div>
                             </div>
                             <!-- 내용    -->
-                            <div class="Detail-Content">
+                            <div class="Detail-Content mb-3" style="min-height: 0px;">
                                 <!-- 지도 들어갈 곳 -->
                                 <!-- 1 -->
                                 {% block content %}

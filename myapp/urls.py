@@ -35,6 +35,9 @@ urlpatterns = [
     path('board/<int:board_id>/process', views.board_u, name='board_process'),      # 게시글 수정
     path('board/<int:board_id>/delete/', views.board_delete, name='board_delete'),  # 게시글 삭제 
 
+    path('comment/create/<int:board_id>/', views.comment_create, name='comment_create'),        # 댓글 등록
+    path('comment/delete/<int:board_id>/<int:comment_id>/', views.comment_delete, name='comment_delete'),              # 댓글 삭제 
+    
     path('signup/', views.show_signup_page, name='signup_page'),                    # 회원가입 페이지
     path('signup/process/', views.signup, name='signup_process'),                   # 'signup'은 회원가입을 처리하는 뷰 함수의 이름
 
@@ -57,7 +60,7 @@ urlpatterns = [
     path('volunteer/detail/<int:id>', views.volunteer_detail, name='volunteer_detail'),     # 페이지 이동
     
     path('volunteer/create/process/', views.volunteer_create_process, name='volunteer_create_process'), # 봉사모집 등록
-    path('volunteer/join/', views.volunteer_join, name='volunteer_join'),                               # 봉사 참가 
+    path('volunteer/<int:volunteer_id>/join/', views.volunteer_join, name='volunteer_join'),                               # 봉사 참가 
 
 
     path('test/', views.test, name='test'),                            # 테스트

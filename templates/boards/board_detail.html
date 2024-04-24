@@ -99,9 +99,11 @@
                         
                     </div>
                     <div class="SideBar-Action">
-                        <div class="Action-Wrap">
-                            <a class="Action-Board" href="">카페 글쓰기</a>
-                        </div>
+                        {% if user.is_authenticated %}
+                            <div class="Action-Wrap">
+                                <a class="Action-Board" href="{% url 'board_create' %}">카페 글쓰기</a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
                 <!-- Content -->
@@ -143,23 +145,29 @@
                                     <div class="Detail-Comment-Img-Container">
                                         <img src="{% static 'images/jingga.jpg' %}" class="Detail-Image-Box">
                                     </div>
-                                    <div class="Detail-Comment-Profile">
+                                    <div class="Detail-Comment-Profile" >
                                         <input type="hidden" name="board_id" value="{{ board_id }}">
-                                        <!-- 작성자 이름 -->
-                                        <div class="Detail-Comment-Author-Container">
+                                        <!-- 작성자 이름 -->     
+                                        <div class="Detail-Comment-Author-Container" style="width: 650px;">
                                             {{ comment.user.first_name }}{{ comment.user.last_name }}
+                                            
                                         </div>
                                         <!-- 내용 -->
-                                        <div class="Detail-Comment-Content">
+                                        <div class="Detail-Comment-Content" style="width: 650px;">
                                             {{ comment.text }}
                                         </div>
                                     </div>
+                                    {% if comment.user.id == request.user.id %}
+                                    <a class="" href="{% url 'comment_delete' board_id=board.id comment_id=comment.comment_num %}"> 삭제 </a>  
+                                    {% endif %}
+                                    
                                 </div>
                                 {% endfor %}
                                 <!-- 댓글 작성 폼     -->
                                 <div class="Detail-Commenting">
                                     <div class="comment-form-container">
-                                        <form action="/submit-comment" method="post" class="Comment-Form">
+                                        <form action="{% url 'comment_create' board.id %}" method="post" class="Comment-Form">
+                                            {% csrf_token %}
                                             <textarea class="comment-form-field" name="comment" rows="4" placeholder="댓글을 입력하세요..."></textarea>
                                             <button type="submit" class="Action-Detail-button">댓글 제출</button>
                                         </form>

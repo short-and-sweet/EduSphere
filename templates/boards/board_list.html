@@ -99,18 +99,20 @@
                         
                     </div>
                     <div class="SideBar-Action">
-                        <div class="Action-Wrap">
-                            <a class="Action-Board" href="{% url 'board_create' %}">카페 글쓰기</a>
-                        </div>
+                        {% if user.is_authenticated %}
+                            <div class="Action-Wrap">
+                                <a class="Action-Board" href="{% url 'board_create' %}">카페 글쓰기</a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
                 <!-- Content -->
                 <div class="Content-Container">
                     <div class="BoardList-Wrap">
                         <div class="BoardList-Box">
-                            <div class="title-Container">
-                                <div class="title-Box">
-                                    <div class="title-Div">게시판</div>
+                            <div class="title-Container mb-3 mt-3">
+                                <div class="title-Box ">
+                                    <div class="title-Div" >게시판</div>
                                 </div>
                             </div>
                             <div class="BoardListTable-Container">
@@ -127,7 +129,12 @@
                                         {% for board in page_obj %}
                                         <tr>
                                             <th scope="row">{{ board.id }}</th>
-                                            <td><a class="detail-Anchor" href="{% url 'board_detail' board.id %}">{{ board.title }}</a></td>
+                                            <td>
+                                                <a class="detail-Anchor" href="{% url 'board_detail' board.id %}">
+                                                {{ board.title }}
+                                                </a>
+                                                <span style="color: crimson; font-weight: 700;">[{{ board.comments.count }}]</span>    
+                                            </td>
                                             <td>{{ board.author.first_name }}{{ board.author.last_name }}</td>
                                             <td>{{ board.created_at|date:"Y.m.d" }}</td>
                                         </tr>

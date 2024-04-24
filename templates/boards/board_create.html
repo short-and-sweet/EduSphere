@@ -109,9 +109,11 @@
                     <div class="BoardList-Wrap">
                         <div class="BoardList-Box">
                             <div class="title-Container">
-                                <div class="title-Box">
-                                    <div class="BoardCreate-title">글쓰기</div>
-                                </div>
+                                {% if user.is_authenticated %}
+                                    <div class="Action-Wrap">
+                                        <a class="Action-Board" href="{% url 'board_create' %}">카페 글쓰기</a>
+                                    </div>
+                                {% endif %}
                             </div>
                             <div class="BoardListTable-Container">
                                 <form class="BoardCreate" method="post" action="{% url 'board_create_process' %}" >

@@ -89,7 +89,6 @@
                             <div class="Info-name">이름: {{ user.first_name }}{{ user.last_name }}</div>
                             <div class="Info-role">등급: 회원</div>    
                         </div>
-                         
                         {% else %}  
                         <div class="Info-wrap">
                             <div class="Info-name">이름: ㅇㅇ</div>
@@ -99,9 +98,11 @@
                         
                     </div>
                     <div class="SideBar-Action">
-                        <div class="Action-Wrap">
-                            <a class="Action-Board" href="{% url 'board_create' %}">카페 글쓰기</a>
-                        </div>
+                        {% if user.is_authenticated %}
+                            <div class="Action-Wrap">
+                                <a class="Action-Board" href="{% url 'board_create' %}">카페 글쓰기</a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
                 <!-- Content -->
@@ -111,9 +112,7 @@
                         <div class="BoardDetail-Wrap">
                             <!-- 제목    -->
                             <div class="Detail-Title">
-                                <div class="Detail-Title-Wrap">
-                                    배급 지도
-                                </div>
+                                <div class="Detail-Title-Wrap">배급 지도</div>
                             </div>
                             <!-- 내용    -->
                             <div class="Detail-Content">
@@ -158,6 +157,12 @@
     </div>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ad3cc57e3e1f9fa8da23ad1f04e02cbf&libraries=services"></script>
     <script src="{% static 'js/distribute/distribution_map.js' %}"></script>
-
+{% if messages %}
+    <script>
+        {% for message in messages %}
+            alert("{{ message }}");
+        {% endfor %}
+    </script>
+{% endif %}
 </body>
 </html>

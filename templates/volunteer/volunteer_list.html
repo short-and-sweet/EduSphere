@@ -99,9 +99,11 @@
                         
                     </div>
                     <div class="SideBar-Action">
-                        <div class="Action-Wrap">
-                            <a class="Action-Board" href="{% url 'board_create' %}">카페 글쓰기</a>
-                        </div>
+                        {% if user.is_authenticated %}
+                            <div class="Action-Wrap">
+                                <a class="Action-Board" href="{% url 'board_create' %}">카페 글쓰기</a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
                 <!-- Content -->
@@ -110,16 +112,17 @@
                         <div class="BoardList-Box">
                             <div class="title-Container">
                                 <div class="title-Box">
-                                    <div class="title-Div">봉사자 모집</div>
+                                    <div class="title-Div mb-3 mt-4">봉사자 모집</div>
                                 </div>
                             </div>
-                            <div class="BoardListTable-Container">
+                            <div class="BoardListTable-Container mt-4">
                                 <table class="table">
                                     <thead>
                                       <tr>
-                                        <th scope="col" style="width: 20%;">번호</th>
+                                        <th scope="col" style="width: 15%;">번호</th>
                                         <th scope="col" style="width: 40%;">제목</th>
-                                        <th scope="col" style="width: 20%;">작성자</th>
+                                        <th scope="col" style="width: 10%;">인원</th>
+                                        <th scope="col" style="width: 15%;">작성자</th>
                                         <th scope="col" style="width: 20%;">시작날짜</th>
                                       </tr>
                                     </thead>
@@ -127,14 +130,21 @@
                                         {% for volunteerRecruitment in page_obj %}
                                         <tr>
                                             <th scope="row">{{ volunteerRecruitment.id }}</th>
-                                            <td><a class="detail-Anchor" href="{% url 'volunteer_detail' volunteerRecruitment.id %}">{{ volunteerRecruitment.title }}</a></td>
+                                            <td><a class="detail-Anchor" href="{% url 'volunteer_detail' volunteerRecruitment.id %}">
+                                                {% if not volunteerRecruitment.recruitment_completed == False %}
+                                                    [ --- 모집 완료 --- ]
+                                                {% else %}
+                                                    {{ volunteerRecruitment.title }}
+                                                {% endif %}
+                                            </a></td>
+                                            <td>{{ volunteerRecruitment.participant_count }}</td>
                                             <td>{{ volunteerRecruitment.user.first_name }}{{ volunteerRecruitment.user.last_name }}</td>
                                             <td>{{ volunteerRecruitment.start_date|date:"Y.m.d" }}</td>
                                         </tr>
                                         {% endfor %}
                                 </table>
                             </div>
-                            <div class="BoardList-Button-Bundle">
+                            <div class="BoardList-Button-Bundle" style="display: flex;">
                                 <div class="Pagenation-Container">
                                     <div class="Pagenation-Wrap">
                                         {% if page_obj.has_previous %}
@@ -148,9 +158,10 @@
                                         {% endif %}
                                     </div>
                                 </div>
-                                <div class="BoardUpload-Container">
+                                <div style="width: 60px; height: 60px;"></div>
+                                <div class="BoardUpload-Container ml-1"  style="width: 150px;">
                                     <div class="Detail-Button-Box">
-                                        <a class="Action-Detail-button" href="{% url 'volunteer_create' %}">모집 등록</a>
+                                        <a style="right: 0px;" class="Action-Detail-button" href="{% url 'volunteer_create' %}">모집 등록</a>
                                     </div>
                                 </div>
                             </div>
@@ -181,5 +192,12 @@
             </div>
         </div>
     </div>
+    {% if messages %}
+        <script>
+            {% for message in messages %}
+                alert("{{ message }}");
+            {% endfor %}
+        </script>
+    {% endif %}
 </body>
 </html>

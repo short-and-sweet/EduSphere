@@ -99,9 +99,11 @@
                         
                     </div>
                     <div class="SideBar-Action">
-                        <div class="Action-Wrap">
-                            <a class="Action-Board" href="">카페 글쓰기</a>
-                        </div>
+                        {% if user.is_authenticated %}
+                            <div class="Action-Wrap">
+                                <a class="Action-Board" href="{% url 'board_create' %}">카페 글쓰기</a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
                 <!-- Content -->
@@ -112,7 +114,10 @@
                             <!-- 제목    -->
                             <div class="Detail-Title mb-3 mt-3">
                                 <div class="Detail-Title-Wrap">
-                                    {{ volunteer.title }}
+                                    {% if volunteer.recruitment_completed == True %}
+                                    [모집완료]
+                                    {% endif %}
+                                    {{ volunteer.title }} ( 모집 인원: {{ volunteer.participant_count  }} )
                                 </div>
                             </div>
                             <!-- 정보    -->
@@ -135,30 +140,70 @@
                                     <div id="latitude" style="display: none;"> {{ volunteer.latitude }} </div>
                                     <div id="longitude" style="display: none;"> {{ volunteer.longitude }} </div>
                                     <div class="Detail-Content-Box mb-4" style="white-space: pre-wrap;">{{ volunteer.content }}</div>
+                                    <hr>
+                                    <div class="mb-3" style="font-size: 28px; font-weight: 600; color:darkblue">참가자 현황</div>
+                                    <div>
+                                        <table class="table" style="border: 1px solid #e0e0e0; border-radius: 10px;">
+                                            <thead>
+                                              <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">이름</th>
+                                                <th scope="col">연락처</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% if volunteer_participants %}
+                                                {% for participant in volunteer_participants %}
+                                                <tr>
+                                                    <th scope="row">{{ forloop.counter }}</th>
+                                                    <td>{{ participant.user.first_name }} {{ participant.user.last_name }}</td>
+                                                    <td>{{ participant.user.email }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                                {% else %}
+                                                <tr>
+                                                    <th scope="row"></th>
+                                                    <td>등록자가 없습니다</td>
+                                                    <td></td>
+                                                </tr>
+                                                {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
                     <!-- 40 -->
                     <div class="BoardDetail-Button-Container">
                         <div class="detail-blank"></div>
-                        <div class="Detail-Button-Wrap">
-                            {% if request.user == board.author %}
-                            <div class="Detail-Button-Box">
-                                <a class="Action-DetailUpdate-button" href="{% url 'board_update' board.id %}">글수정</a>
-                            </div>
-                            <div class="Detail-Button-Box">
-                                <a class="Action-DetailDelete-button" href="{% url 'board_delete' board.id %}">글삭제</a>
-                            </div>
+                        {% if not request.user == volunteer.user %}
+                            {% if is_participant %}
+                                {% if volunteer.recruitment_completed %}
+                                    <div class="Detail-Button-Box">
+                                        <div class="Action-Detail-button" style="background-color: rgb(41, 154, 182);">참가완료</div>
+                                    </div>
+                                {% else %}
+                                    <div class="Detail-Button-Box">
+                                        <a class="Action-Detail-button" href="{% url 'volunteer_join' volunteer.id %}">참가하기</a>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                {% if volunteer.recruitment_completed %}
+                                    <div class="Detail-Button-Box">
+                                        <div class="Action-Detail-button" style="background-color: red;">모집완료</div>
+                                    </div>
+                                {% else %}
+                                    <div class="Detail-Button-Box">
+                                        <a class="Action-Detail-button" href="{% url 'volunteer_join' volunteer.id %}">참가하기</a>
+                                    </div>
+                                {% endif %}
                             {% endif %}
-                            <div class="Detail-Button-Box">
-                                <a class="Action-Detail-button" href="{% url 'volunteer_join' %}">글쓰기</a>
-                            </div>
-                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
+
             <!-- Footer -->
             <div class="Footer-Container">
                 <div class="Footer-Wrap">

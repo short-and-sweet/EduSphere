@@ -10,6 +10,26 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
 
+import socket
+from django.conf import settings
+
+def get_server_ip():
+    hostname = socket.gethostname()
+    server_ip = socket.gethostbyname(hostname)
+    return server_ip
+
+def get_mariadb_ip():
+    db_host = settings.DATABASES['default']['HOST']
+    return db_host
+
+# IP 호출
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 
 # 메인 페이지 뷰
@@ -17,7 +37,17 @@ def main_page(request):
     latest_boards = Board.objects.all().order_by('-created_at')[:5][::-1]  # 최신 게시글 5개만 가져오기
     latest_volunteers = VolunteerRecruitment.objects.all().order_by('id')[:5][::-1]  # 최신 게시글 5개만 가져오기
     print(latest_volunteers)
-    return render(request, 'main_page.html', {'latest_boards': latest_boards,'latest_volunteers': latest_volunteers})
+    client_ip = get_client_ip(request)
+    server_ip = get_server_ip()
+    mariadb_ip = get_mariadb_ip()
+
+    return render(request, 'main_page.html', {
+        'latest_boards': latest_boards,
+        'latest_volunteers': latest_volunteers,
+        'client_ip': client_ip,
+        'server_ip': server_ip,
+        'mariadb_ip': mariadb_ip
+        })
 
 # 로그인 페이지 뷰
 def show_login_page(request):
@@ -29,7 +59,15 @@ def show_signup_page(request):
 
 # 피난소 시설 페이지 뷰
 def shelter_page(request):
-    return render(request, 'shelter_page.html')
+    client_ip = get_client_ip(request)
+    server_ip = get_server_ip()
+    mariadb_ip = get_mariadb_ip()
+
+    return render(request, 'shelter_page.html',{
+        'client_ip': client_ip,
+        'server_ip': server_ip,
+        'mariadb_ip': mariadb_ip
+    })
 
 
 # 게시판 목록 페이지 뷰
@@ -41,17 +79,44 @@ def board_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'boards/board_list.html', {'page_obj': page_obj})
+    client_ip = get_client_ip(request)
+    server_ip = get_server_ip()
+    mariadb_ip = get_mariadb_ip()
+
+
+    return render(request, 'boards/board_list.html', {
+        'page_obj': page_obj,
+        'client_ip': client_ip,
+        'server_ip': server_ip,
+        'mariadb_ip': mariadb_ip    
+        })
 
 
 # 게시판 등록 페이지 뷰
 def board_create(request):
-    return render(request, 'boards/board_create.html')
+    client_ip = get_client_ip(request)
+    server_ip = get_server_ip()
+    mariadb_ip = get_mariadb_ip()
+
+    return render(request, 'boards/board_create.html',{
+        'client_ip': client_ip,
+        'server_ip': server_ip,
+        'mariadb_ip': mariadb_ip
+    })
 
 # 게시판 수정 페이지 뷰 
 def board_update(request, board_id):
     board = get_object_or_404(Board, id=board_id)
-    return render(request, 'boards/board_update.html', {'board': board})
+    client_ip = get_client_ip(request)
+    server_ip = get_server_ip()
+    mariadb_ip = get_mariadb_ip()
+
+    return render(request, 'boards/board_update.html', {
+        'board': board,
+        'client_ip': client_ip,
+        'server_ip': server_ip,
+        'mariadb_ip': mariadb_ip        
+    })
 
 # 게시판 삭제
 def board_delete(request, board_id):
@@ -66,7 +131,16 @@ def board_delete(request, board_id):
 def board_detail(request, board_id):
     board = Board.objects.get(pk=board_id)  # 해당 board_id에 해당하는 게시글 정보를 가져옵니다.
     comments = Comment.objects.filter(board=board)  # 해당 게시글에 달린 댓글들을 가져옵니다.
-    return render(request, 'boards/board_detail.html', {'board': board, 'comments': comments})
+    client_ip = get_client_ip(request)
+    server_ip = get_server_ip()
+    mariadb_ip = get_mariadb_ip()
+    return render(request, 'boards/board_detail.html', {
+        'board': board, 'comments': comments,
+        'client_ip': client_ip,
+        'server_ip': server_ip,
+        'mariadb_ip': mariadb_ip 
+    
+    })
 
 
 #####################################################################################
@@ -153,18 +227,46 @@ def logout_view(request):
     messages.success(request, '로그아웃 되셨습니다!')
     return redirect('main_page')
 
+
+
 # 지도 템플릿 변경 함수
 def map_template_click(request):
     button_id = request.GET.get('button_id')
     template_name = f'maps/map_template{button_id}.html'  # 클릭된 버튼에 따라 템플릿 파일 선택
-    context = {}  # 필요한 경우 템플릿에 전달할 변수를 포함한 컨텍스트 생성
+    client_ip = get_client_ip(request)
+    server_ip = get_server_ip()
+    mariadb_ip = get_mariadb_ip()
+    context = {
+        'client_ip': client_ip,
+        'server_ip': server_ip,
+        'mariadb_ip': mariadb_ip  
+    }  # 필요한 경우 템플릿에 전달할 변수를 포함한 컨텍스트 생성
     return render(request, template_name, context)
 
+
+
+
 def distribution_map(request):
-    return render(request, 'Distribution/distribution_map.html') 
+    client_ip = get_client_ip(request)
+    server_ip = get_server_ip()
+    mariadb_ip = get_mariadb_ip()
+
+    return render(request, 'Distribution/distribution_map.html', {
+        'client_ip': client_ip,
+        'server_ip': server_ip,
+        'mariadb_ip': mariadb_ip        
+    }) 
 
 def distribution_create(request):
-    return render(request, 'Distribution/distribution_create.html') 
+    client_ip = get_client_ip(request)
+    server_ip = get_server_ip()
+    mariadb_ip = get_mariadb_ip()
+
+    return render(request, 'Distribution/distribution_create.html', {
+        'client_ip': client_ip,
+        'server_ip': server_ip,
+        'mariadb_ip': mariadb_ip        
+    }) 
 
 # 배급등록
 def distribution_create_process(request):
@@ -214,23 +316,45 @@ def volunteer_list(request):
     paginator = Paginator(all_volunteers, 10)  # 한 페이지에 10개의 게시글을 표시합니다.
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    client_ip = get_client_ip(request)
+    server_ip = get_server_ip()
+    mariadb_ip = get_mariadb_ip()
 
-    return render(request, 'volunteer/volunteer_list.html', {'page_obj': page_obj}) 
+    return render(request, 'volunteer/volunteer_list.html', {'page_obj': page_obj,
+                                                             'client_ip': client_ip,
+        'server_ip': server_ip,
+        'mariadb_ip': mariadb_ip                                                               
+                                                             }) 
+
 
 def volunteer_create(request):
-    return render(request, 'volunteer/volunteer_create.html') 
+    client_ip = get_client_ip(request)
+    server_ip = get_server_ip()
+    mariadb_ip = get_mariadb_ip()
+
+    return render(request, 'volunteer/volunteer_create.html', {
+        'client_ip': client_ip,
+        'server_ip': server_ip,
+        'mariadb_ip': mariadb_ip        
+    }) 
 
 # 상세 게시판 페이지 뷰
 def volunteer_detail(request, id):
     volunteer = get_object_or_404(VolunteerRecruitment, pk=id)
     volunteer_participants = VolunteerList.objects.filter(recruitment=volunteer)
     is_participant = volunteer_participants.filter(user=request.user).exists() if request.user.is_authenticated else False
+    client_ip = get_client_ip(request)
+    server_ip = get_server_ip()
+    mariadb_ip = get_mariadb_ip()
     
     print(volunteer_participants)
     context = {
         'volunteer': volunteer,
         'volunteer_participants': volunteer_participants,
         'is_participant': is_participant,
+        'client_ip': client_ip,
+        'server_ip': server_ip,
+        'mariadb_ip': mariadb_ip 
     }
     return render(request, 'volunteer/volunteer_detail.html', context)
 
@@ -254,7 +378,7 @@ def volunteer_create_process(request):
 # 배급 데이터 바인딩
 def get_volunteer_data(request):
     # 모델에서 필요한 데이터를 쿼리합니다.
-    volunteers = Volunteer.objects.all()
+    volunteers = VolunteerRecruitment.objects.all()
 
     # 데이터를 JSON 형식으로 가공합니다.
     data = list(volunteers.values('latitude', 'longitude'))

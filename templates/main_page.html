@@ -99,14 +99,24 @@
                         </div>
                         {% endif %}
                     </div>
-                    <div class="SideBar-Action">
-                        {% if user.is_authenticated %}
+                    {% if user.is_authenticated %}
+                    <div class="SideBar-Action">    
                             <div class="Action-Wrap">
                                 <a class="Action-Board" href="{% url 'board_create' %}">카페 글쓰기</a>
                             </div>
-                        {% endif %}
+                    </div>
+                    {% endif %}
+                    <div>
+                        <p>연결된 노드</p>
+                        <div><B>Host</B></div>
+                        <div>=>{{ client_ip }}</div>
+                        <div><B>Web</B></div>
+                        <div>=>{{ server_ip }}</div>
+                        <div><B>DB</B></div>
+                        <div>=>{{ mariadb_ip }}</div>
                     </div>
                 </div>
+                
                 <!-- Content -->
                 <div class="Content-Container">
                     <div class="Content-Wrap">
